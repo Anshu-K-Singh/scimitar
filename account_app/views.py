@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -25,7 +25,7 @@ def login_view(request):
         form = AuthenticationForm()
 
     # Add cache control to the login page to prevent caching
-    response = render(request, 'login.html', {'form': form})
+    response = render(request, 'account_app/login.html', {'form': form})
     response['Cache-Control'] = 'no-store, no-cache, must-revalidate, proxy-revalidate'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
@@ -47,7 +47,7 @@ def register(request):
     else:
         form = UserRegisterForm()
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'account_app/register.html', {'form': form})
 
 def logout_view(request):
     """Handle user logout."""
@@ -73,6 +73,4 @@ def login_required_view(request):
         return HttpResponseRedirect(f'{reverse("login")}?next={request.path}')
 
     # Continue with the view logic if authenticated
-    if HttpResponseRedirect(f'{reverse("login")}?next={request.path}'):
-        return redirect('login')
-    return render(request, 'login_required.html')
+    return render(request, 'account_app/login_required.html')

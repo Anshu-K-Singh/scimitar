@@ -59,9 +59,7 @@ ROOT_URLCONF = 'survey.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'templates'
-        ],
+        'DIRS': [BASE_DIR / 'templates'],  # Update template directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

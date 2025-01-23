@@ -34,8 +34,6 @@ import random
 # Home view protected by login_required
 @login_required
 def home(request):
-    if not request.user.is_authenticated:
-        return redirect('login')  # Redirect to login if not authenticated
 
     # You can pass context to the template
     context = {
@@ -44,7 +42,7 @@ def home(request):
     }
 
     # Render the template and get the response
-    response = render(request, 'home.html', context)
+    response = render(request, 'surveyapp/home.html', context)
 
     # Add cache control headers to prevent caching of the page
     response['Cache-Control'] = 'no-store, no-cache, must-revalidate, proxy-revalidate'
@@ -58,7 +56,7 @@ def home(request):
 # Dashboard view (no login required here)
 def dashboard(request):
     # Render dashboard page (no cache control required here as it doesn't require authentication)
-    return render(request, 'dashboard.html')
+    return render(request, 'surveyapp/dashboard.html')
 
 
 
@@ -66,7 +64,7 @@ def dashboard(request):
 # Another view (mdashboard) (no login required)
 def mdashboard(request):
     # Render home page again but no cache control as it is public
-    return render(request, 'home.html')
+    return render(request, 'surveyapp/home.html')
 
 
 
@@ -104,7 +102,7 @@ def affiliate_view(request):
     else:
         form = AffiliateForm()
 
-    return render(request, 'affiliate.html', {'form': form})
+    return render(request, 'surveyapp/affiliate.html', {'form': form})
 
 
 
@@ -114,7 +112,7 @@ def affiliate_view(request):
 def survey_monitor(request):
     # Fetch all surveys
     surveys = Surveymonitor.objects.all()
-    return render(request, 'monitorsurvey.html', {'surveys': surveys})
+    return render(request, 'surveyapp/monitorsurvey.html', {'surveys': surveys})
 
 
 
@@ -147,7 +145,7 @@ def add_survey(request):
         # After creating the survey, redirect to the survey form with the newly created survey_id
         return redirect('responseform', survey_id=survey.id)
 
-    return render(request, 'addsurvey.html')
+    return render(request, 'surveyapp/addsurvey.html')
 
 
 #VIEWS FOR SURVEY FORM
@@ -180,11 +178,11 @@ def response_form(request, survey_id=None):
             # Optionally save the answers or process them
 
         # Return the page with survey and questions
-        return render(request, 'responseform.html', {'survey': survey, 'questions': questions})
+        return render(request, 'surveyapp/responseform.html', {'survey': survey, 'questions': questions})
 
     else:
         # If no survey_id is provided, render a fallback page
-        return render(request, 'responseform.html')
+        return render(request, 'surveyapp/responseform.html')
 
 
 
@@ -237,7 +235,7 @@ def survey_details(request):
             "terminate_points": 0
         }
     }
-    return render(request, 'surveydetails.html', {"survey": survey_data, "survey_id": 1})  # Replace '1' with actual survey ID from database
+    return render(request, 'surveyapp/surveydetails.html', {"survey": survey_data, "survey_id": 1})  # Replace '1' with actual survey ID from database
 
 @csrf_exempt
 def deactivate_survey(request):
